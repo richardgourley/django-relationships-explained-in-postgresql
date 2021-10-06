@@ -107,7 +107,7 @@ DETAIL:  constraint profile_site_user_id_fkey on table profile depends on table 
 HINT:  Use DROP ... CASCADE to drop the dependent objects too.
 ```
 
-Here, we can see another example of how the idea of CASCADE runs down from a parent table to a child table.
+Here, we can see when we use DROP... CASCADE, the table deletion cascades down and deletes all tables that reference it.
 
 ```
 DROP TABLE site_user
@@ -151,7 +151,7 @@ This is from the Django docs:
 
 - Basically, you could create your Django model with models.ForeignKey(Object, unique=True) but the OneToOneField in Django makes querying really easy.
 
-- Accessing the model on other side of relationship is super easy...
+- Accessing the model on the other side of the relationship is super easy...
 
 ```
 user = profile.user
