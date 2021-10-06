@@ -116,3 +116,71 @@ CASCADE;
 NOTICE:  drop cascades to constraint profile_site_user_id_fkey on table profile
 DROP TABLE
 ```
+
+## DJANGO - How it works in Django
+
+NOTE: In this example, instead of 'site_user' (only used as an example to avoid the postgres 'user' keyword) we use the built in django user model.
+
+NOTE: 'settings.AUTH_USER_MODEL' refers to the built in Django 'user' model.
+
+NOTE:  Using 'models.OneToOneField' effectively does the same as above - adding a foreign key that is set to unique. This means there can be only 1 user associated with the profile and vice versa.
+
+NOTE:  The 'on_delete=models.CASCADE' part means that the same things will happen as above.  If the user is deleted, the profile is irrelevant and will be deleted too!
+
+NOTE: Django will automatically create the SERIAL (AUTO INCREMENTED) PRIMARY KEY integer for your model.
+
+- Here is how you would represent the 'profile' table with a Django model...
+
+```
+class Profile(models.Model):
+    # unique=True is automatically created in the 'profile' database table by Django when you use a OneToOneField.
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    description = models.TextField(
+        null = False, 
+        blank=False
+    )
+```
+
+### Accessing Django objects
+
+This is from the Django docs:
+"A one-to-one relationship. Conceptually, this is similar to a ForeignKey with unique=True, but the “reverse” side of the relation will directly return a single object."
+
+- Basically, you could create your Django model with models.ForeignKey(Object, unique=True) but the OneToOneField in Django makes querying really easy.
+
+- Accessing the model on other side of relationship is super easy...
+
+```
+user = profile.user
+profile = user.profile # you may have to handle ObjectDoesNotExist error, if profile hasn't been created yet
+```
+
+- Exception handling of ObjectDoesNotExist
+
+```
+try:
+    profile = user.profile
+except ObjectDoesNotExist:
+    print("No profile has been created.")
+
+- You could even use hasattr to avoid exception writing..
+
+hasattr(user, 'profile')
+```
+
+- A few more query examples...
+
+```
+--- Find profile belonging to username starting with a specific string
+Profile.objects.get(user__username__startswith="bobwatkins")
+
+- Finds profile whose users' username contains 'Bob'
+Profile.objects.get(user__username__contains="Bob")
+```
+
+SUMMARY:  
+- The Django 'OneToOneField' effectively means this model belongs to the parent model and only ONE of this model can belong to the parent.
+- 'on_delete=models.CASCADE' means that IF the parent model ('user') is deleted, the 'profile' object will also be deleted.
