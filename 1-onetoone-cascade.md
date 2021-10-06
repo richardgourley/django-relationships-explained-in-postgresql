@@ -134,6 +134,7 @@ NOTE: Django will automatically create the SERIAL (AUTO INCREMENTED) PRIMARY KEY
 ```
 class Profile(models.Model):
     # unique=True is automatically created in the 'profile' database table by Django when you use a OneToOneField.
+    
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
