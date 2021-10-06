@@ -7,7 +7,7 @@ Examples of one to one, one to many and many to many relationships in Django mod
 
 - All of the examples show you how a Django model would be setup with table equivalents using PostgreSQL.
 
-The examples focus on helping users understand these concepts clearly:
+## The examples focus on helping users understand these concepts clearly:
 
 1. When to use a one to one relationship.
 2. When to use a one to many relationship.
