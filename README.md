@@ -13,20 +13,6 @@
 
 ## EXAMPLE SCENARIOS
 
-### Each example tries to answer these questions...
-
-How are the tables and relationships created in Postgres tables?
-
-What happens if parent table rows are deleted?
-
-How are the objects and their relationships created with Django models?
-
-What happens if a referencing object is deleted?
-
-How do I correctly query and retrieve the object or objects on the other side of the relationship?
-
-Do I use '.object', '.object_set.all()', '.object.all()'?
-
 ## List of Examples
 
 1. **OneToOne relationship with ON DELETE CASCADE.**
