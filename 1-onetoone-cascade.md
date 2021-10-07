@@ -150,11 +150,14 @@ DROP profile;
 - Compare the Django model below with the Postgres profile table above.
 
 ```
+from django.contrib.auth.models import User
+from django.db import models
+
 class Profile(models.Model):
     # unique=True is automatically created in the 'profile' database table by Django when you use a OneToOneField.
     
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
     )
     description = models.TextField(
@@ -166,9 +169,9 @@ class Profile(models.Model):
 - With the 'OneToOneField', Django takes care of adding unique=True.
 - Django will create a table in the database to contain objects of the 'Profile' model.
 - In Django, we pass in models for relationships instead of 'ids' from other tables.
-- Django already has a built in user model with username, email etc. so we pass in 'AUTH_USER_MODEL' to the 'OneToOneField' 
+- Django already has a built in user model with username, email etc. so we pass in 'User' to the 'OneToOneField' 
 
-- As above, if the user is deleted, the profile for that user is also deleted.
+- The same as with the Postgres tables above, if the user is deleted, the profile for that user is also deleted because we have set: 'on_delete=models.CASCADE'
 
 ### Accessing Django objects
 
