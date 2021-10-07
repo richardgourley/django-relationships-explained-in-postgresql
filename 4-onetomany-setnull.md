@@ -12,7 +12,7 @@ Let's add some data
 
 ### DJANGO - How it works in Django
 
-- Compare the Django model below with the Postgres profile table above.
+- Compare the Django model below with the Postgres tables above.
 
 ### Accessing Django objects
 
