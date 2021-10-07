@@ -3,19 +3,19 @@
 
 ### Situation
 In this example, a property company wants to store details of its' properties and the agents who work for the company in their website database.
-The company prefer to assing ONE and only one agent to look after and rent out ONE property.
+The company prefer to assign ONE and only one agent to look after and rent out each property.
 The agent can be assigned to many properties.
 
-- If an agent leaves the company and is deleted from the database, the company don't want to delete any of their properties. They would assign a new or different agent to the properties the previous agent was looking after.
-
 Here we have a ONE to MANY relationship, also referred to as a MANY to ONE relationship.
+
+- If an agent leaves the company and is deleted from the database, the company don't want to delete any of their properties. They prefer assign a new or different agent to the properties the previous agent was looking after.
 
 ### POSTGRES - How would it work in Postgres
 - We have two tables, agent and property
 - Think of agent as the 'parent' table, which 'owns' properties.
 - Think of the property table as the 'child' table, taken care of by agents.
 
-- Unlike a one to one relationship, the agent_id for property shouldn't be unique.  The agent_id of say '2' can appear many times in the property table for different. properties.
+- Unlike a one to one relationship, the agent_id for property shouldn't be unique.  The agent with agent_id of '2' could appear many times in the property table for different properties.
 - The agent_id has to be set null (null is default) because the Foreign Key is set to ON DELETE SET NULL.
 - The agent_id will be set to NULL for a property if an agent is deleted. (Rather than deleting the property).
 
@@ -114,7 +114,7 @@ class Property(models.Model):
 - A one to many relationship is created with a 'ForeignKey' field passing in the related object.
 - If set to 'on_delete=models.SET_NULL', this object will not be deleted if a 'parent' object is deleted, but the parent object will be set to null.
 - Django will take care of the auto increment of property ids.
-- Django checks fields with 'blank=False' are not empty in the Django admin or on the client side.
+- Django checks fields with 'blank=False' are not empty strings in the Django admin or on the client side.
 
 ### Accessing Django objects
 
