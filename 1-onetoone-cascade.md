@@ -5,10 +5,8 @@
 An application or web application often has users.  Let's imagine we are creating a user model in Django or a user table in Postgres and a profile model or postgres table called profile.
 
 - We want to be able to create a user who can then create a profile.
-- We only want to have one profile per user (and one user associated with a profile).
-- For this we will create a one to one relationship.
-- What happens when a user is deleted?  In this scenario, we want to delete the profile from the database associated with a user when the user is deleted.
-- For this we will use ON DELETE CASCADE
+- We only want to have one profile per user (and one user associated with a profile). This is a ONE to ONE relationship.
+- What happens when a user is deleted?  In this scenario, we want to delete the profile from the database associated with a user when the user is deleted. For this we will use ON DELETE CASCADE
 
 ### POSTGRES - How would it work in Postgres
 - We have two tables - site_user and profile.
