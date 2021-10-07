@@ -177,9 +177,11 @@ class Profile(models.Model):
 This is from the Django docs:
 "A one-to-one relationship. Conceptually, this is similar to a ForeignKey with unique=True, but the “reverse” side of the relation will directly return a single object."
 
-- Basically, you could create your Django model with models.ForeignKey(Object, unique=True) but the OneToOneField in Django makes querying really easy.
+- Basically, you could create your Django model with models.ForeignKey(Object, unique=True) but the OneToOneField in Django makes querying significantly easier.
 
 EXAMPLES
+
+- Obtain a user from a profile and vice versa.
 
 ```
 user = profile.user
