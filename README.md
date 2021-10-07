@@ -2,11 +2,10 @@
 
 A repo of use case examples of one to one, one to many and many to many relationships explained using both Postgres tables and Django models in each example.
 
-The examples also aim to explain when to use on delete cascade or on delete set null.
-
 The examples try to clarify what is happening in Postgres tables under the hood, when Django models are created with simple clear example scenarios.
 
-EXAMPLE
+EXAMPLES
+
 - Each example answers these questions...
 How are the tables and relationships created in Postgres tables?
 How are the objects and their relationships created with Django models?
@@ -26,4 +25,5 @@ What happens if a referencing object or row is deleted?
 
 5. Many To Many relationship example.
 - An example of a university with subjects taught by multiple teachers.
+
 
