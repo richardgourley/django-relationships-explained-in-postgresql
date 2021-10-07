@@ -7,9 +7,9 @@ The examples also aim to explain when to use on delete cascade or on delete set 
 The examples try to clarify what is happening in Postgres tables under the hood, when Django models are created with simple clear example scenarios.
 
 EXAMPLE
-- Each example
-How is this relationship created in Postgres tables?
-How is this relationship created with Django models?
+- Each example answers these questions...
+How are the tables and relationships created in Postgres tables?
+How are the objects and their relationships created with Django models?
 What happens if a referencing object or row is deleted?
 
 1. OneToOne relationship with ON DELETE CASCADE.
@@ -19,10 +19,11 @@ What happens if a referencing object or row is deleted?
 - An example of a customer and a unique special offer code.
 
 3. OneToMany relationship with ON DELETE CASCADE
+- An example of a company which receives numerous visitors, who are obliged to store their electronic devices away when visiting the company.
 
 4. OneToMany relationship with ON DELETE SET NULL
 - An example of a property and agent relationship for a property rental company.
 
 5. Many To Many relationship example.
-- An example for a university with teachers teaching multiple subjects.
+- An example of a university with subjects taught by multiple teachers.
 
