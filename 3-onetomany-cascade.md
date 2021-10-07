@@ -11,6 +11,14 @@ In this case, we have many electronic devices that are returned to one and only 
 
 ### POSTGRES - How would it work in Postgres
 
+- We have two tables, visitor and electronic_devices
+- Think of visitor as the 'parent' table, the owner of electronic devices.
+- Think of the electronic devices as the 'child' table, multiple devices 'owned' by a visitor.
+
+- The electronic_devices table can have multiple entries with the same visitor_id.  However an electronic device can't be owned by more than one visitor - hence the ONE to MANY relationship.
+
+- As we have ON DELETE CASCADE set, when a visitor leaves and is deleted, all of that visitors' devices will be deleted too.
+
 ### The Tables
 
 ```
