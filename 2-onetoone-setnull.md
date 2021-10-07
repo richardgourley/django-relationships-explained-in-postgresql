@@ -9,13 +9,13 @@
 ### POSTGRES - How would it work in Postgres
 - The customer table is the 'parent' table.
 - The special_offer_code table is the 'child' table - 'owned' by a customer.
-- The customer_id field is set to UNIQUE to ensure a ONE to ONE relationship.
-- The code field is also set to UNIQUE to ensure it is never repeated.
-- The customer_id is also nullable, and the foreign key is set to ON DELETE SET NULL, so if a customer is deleted, the row remains in the special_offer_code table with the customer_id set to NULL.
+- In the 'special_offer_code' table, the customer_id field is set to UNIQUE to ensure a ONE to ONE relationship.
+- The code field in the 'special_offer_code' table is also set to UNIQUE to ensure it is never repeated.
+- The customer_id field is also nullable, and the foreign key is set to ON DELETE SET NULL, so if a customer is deleted, the row remains in the special_offer_code table with the customer_id set to NULL.
 
 ### The Tables
 
-- NOTE: The CONSTRAINT name is optional.
+- NOTE: The CONSTRAINT name is optional. Postgres will auto create a CONSTRAINT name for you if you don't specify one.
 
 ```
 CREATE TABLE customer(
@@ -140,6 +140,8 @@ FROM special_offer_code;
 - Compare the Django models below with the Postgres tables above.
 
 ```
+from django.db import models
+
 class Customer(models.Model):
     customer_name = models.CharField(
         max_length=100,
@@ -192,7 +194,7 @@ except ObjectDoesNotExist:
     print("No special offer code has been created.")
 ```
 
-- You could use hasattr() instead to handle a user without a created profile.
+- You could use hasattr() instead to handle a customer who hasn't been assigned a special offer code.
 
 ```
 hasattr(customer, 'code')
@@ -200,5 +202,5 @@ hasattr(customer, 'code')
 
 ### SUMMARY:  
 
-In this example of a ONE to ONE relationship with ON DELETE SET NULL, the customer can have only ONE code (and vice versa) but when the customer is deleted, the unique special offer code remains in the database.
-In situations where a 'parent' table row will be deleted but you want to keep the associated row from the child table in the database, use ON DELETE SET NULL.
+In this example of a ONE to ONE relationship with ON DELETE SET NULL, the customer can have only ONE special offer code but when the customer is deleted, the unique special offer code remains in the database.
+In situations where a 'parent' table row is deleted but you want to keep the associated row from the child table in the database, use ON DELETE SET NULL.
