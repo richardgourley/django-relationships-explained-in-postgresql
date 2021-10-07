@@ -2,12 +2,12 @@
 ## Postgres Tables vs. Django Models 
 
 ### Situation
-- A prestigious but top secret company has hundreds of visitors coming to their site.  Due to the secrecy around the company, when visitors arrive, they must place all electronic devices such as phones and laptops in a storage room.
+- A prestigious but top secret company has hundreds of visitors coming to their offices everyday.  Due to the secrecy around the company, when visitors arrive, they must place all electronic devices such as phones and laptops in a storage room.
 - The company uses a database table to record general visitor information, and a separate table to record all of the visitors' laptops, phones and smartwatches to ensure they are returned to the visitor.
 - The company hates bad publicity so they make sure all electronic devices are carefully returned to the visitor when they leave, with no mix ups.
-- Due to the huge number of visitors they recieve, the company wants to quickly delete a visitor when the visitor signs out and after returning all electronic devices, delete the electronic devices from the database when the visitor is deleted.
+- Due to the huge number of visitors they recieve, the company wants to quickly delete a visitor when the visitor signs out and after returning all electronic devices, delete the electronic devices from the database at the same time the visitor is deleted from the database.
 
-In this case, we have many electronic devices that are returned to one and only one visitor.
+In this case, we have MANY electronic devices that are returned to ONE and only one visitor.
 
 ### POSTGRES - How would it work in Postgres
 
@@ -134,7 +134,7 @@ class ElectronicDevice(models.Model):
 - A one to many relationship is created with a 'ForeignKey' field passing in the related object.
 - 'on_delete=models.CASCADE' in the visitor field of ElectronicDevice will result in an instance of ElectronicDevice being deleted when the instance of Visitor is deleted.
 - Django will take care of the auto increment of visitor ids.
-- Django checks fields with 'blank=False' are not empty in the Django admin or on the client side.
+- Django checks fields with 'blank=False' are not an empty string in the Django admin or on the client side.
 
 ### Accessing Django objects
 
