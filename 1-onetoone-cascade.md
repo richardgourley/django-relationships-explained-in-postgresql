@@ -125,7 +125,7 @@ DETAIL:  constraint profile_site_user_id_fkey on table profile depends on table 
 HINT:  Use DROP ... CASCADE to drop the dependent objects too.
 ```
 
-Here, we can see when we use DROP... CASCADE, the reference is removed from the profile table... (but we still have to DROP the profile table)
+Here, we can see when we use DROP... CASCADE, the reference is removed from the profile table... (but we still have to manually DROP the profile table)
 
 ```
 DROP TABLE site_user
@@ -144,13 +144,14 @@ Table "public.profile"
 Indexes:
     "profile_pkey" PRIMARY KEY, btree (site_user_id)
 
+----
 DROP profile;
 
 ```
 
 ### DJANGO - How it works in Django
 
-- Compare the Django model below with the Postgres table for profile above.
+- Compare the Django model below with the Postgres profile table above.
 
 ```
 class Profile(models.Model):
@@ -166,34 +167,12 @@ class Profile(models.Model):
     )
 ```
 
-- The site_user_id is set as a FOREIGN KEY referencing or linking to the id column of the site_user table.
-- The site_user_id is also set as UNIQUE which means only one id from the site_user table can be linked to a profile.
-- The FOREIGN KEY of site_user_id in the profile table is also set to ON DELETE CASCADE. 
-- ON DELETE CASCADE means that when the 'parent' row (site_user) is deleted, then this profile row will also be deleted.
+- With the 'OneToOneField', Django takes care of adding unique=True.
+- Django will create a table in the database to contain objects of the 'Profile' model.
+- In Django, we pass in models for relationships instead of 'ids' from other tables.
+- Django already has a built in user model with username, email etc. so we pass in 'AUTH_USER_MODEL' to the 'OneToOneField' 
 
-
-
-
-
-
-
-
-
-
-
-NOTE: In this example, instead of 'site_user' (only used as an example to avoid the postgres 'user' keyword) we use the built in django user model.
-
-NOTE: 'settings.AUTH_USER_MODEL' refers to the built in Django 'user' model.
-
-NOTE:  Using 'models.OneToOneField' effectively does the same as above - adding a foreign key that is set to unique. This means there can be only 1 user associated with the profile and vice versa.
-
-NOTE:  The 'on_delete=models.CASCADE' part means that the same things will happen as above.  If the user is deleted, the profile is irrelevant and will be deleted too!
-
-NOTE: Django will automatically create the SERIAL (AUTO INCREMENTED) PRIMARY KEY integer for your model.
-
-- Here is how you would represent the 'profile' table with a Django model...
-
-
+- As above, if the user is deleted, the profile for that user is also deleted.
 
 ### Accessing Django objects
 
@@ -202,7 +181,7 @@ This is from the Django docs:
 
 - Basically, you could create your Django model with models.ForeignKey(Object, unique=True) but the OneToOneField in Django makes querying really easy.
 
-- Accessing the model on the other side of the relationship is super easy...
+EXAMPLES
 
 ```
 user = profile.user
@@ -216,9 +195,11 @@ try:
     profile = user.profile
 except ObjectDoesNotExist:
     print("No profile has been created.")
+```
 
-- You could even use hasattr to avoid exception writing..
+- You could use hasattr() instead to handle a user without a created profile.
 
+```
 hasattr(user, 'profile')
 ```
 
@@ -232,6 +213,6 @@ Profile.objects.get(user__username__startswith="bobwatkins")
 Profile.objects.get(user__username__contains="Bob")
 ```
 
-SUMMARY:  
+### SUMMARY:  
 - The Django 'OneToOneField' effectively means this model belongs to the parent model and only ONE of this model can belong to the parent.
 - 'on_delete=models.CASCADE' means that IF the parent model ('user') is deleted, the 'profile' object will also be deleted.
