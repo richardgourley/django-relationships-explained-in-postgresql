@@ -1,17 +1,27 @@
-## DJANGO vs. POSTGRES - 
 ## One To One Relationship with ON DELETE CASCADE
-
-## POSTGRES - How it works in Postgres
-- OneToOne relationship
-- 'site_user' is the parent table
-- 'site_user' is used in the example because 'user' is a reserved keyword
-- 'profile' is the child table
+## Postgres Tables vs. Django Models 
 
 ### Situation
-- The site_user table is considered the 'parent' table - a bit like an owner.  
-- The profile table is considered the 'child' table - owned by the user.
+An application or web application often has users.  Let's imagine we are creating a user model in Django or a user table in Postgres and a profile model or postgres table called profile.
 
-- Let's create the tables
+- We want to be able to create a user who can then create a profile.
+- We only want to have one profile per user (and one user associated with a profile).
+- For this we will create a one to one relationship.
+- What happens when a user is deleted?  In this scenario, we want to delete the profile from the database associated with a user when the user is deleted.
+- For this we will use ON DELETE CASCADE
+
+### POSTGRES - How would it work in Postgres
+- We have two tables - site_user and profile.
+
+- Think of the site_user table as the 'parent' table that 'owns' a profile.
+- Think of the profile table as the 'child' table.  A profile is 'owned' by a user.
+
+- The site_user_id is set as a FOREIGN KEY referencing or linking to the id column of the site_user table.
+- The site_user_id is also set as UNIQUE which means only one id from the site_user table can be linked to a profile.
+- The FOREIGN KEY of site_user_id in the profile table is also set to ON DELETE CASCADE. 
+- ON DELETE CASCADE means that when the 'parent' row (site_user) is deleted, then this profile row will also be deleted.
+
+### The Tables
 
 ```
 CREATE TABLE site_user(
