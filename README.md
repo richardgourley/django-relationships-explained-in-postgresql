@@ -1,20 +1,28 @@
 # Django Relationships Explained in PostgreSQL
 
-Examples of one to one, one to many and many to many relationships in Django models, explained with under the hood table examples created in PostgreSQL.  
+A repo of use case examples of one to one, one to many and many to many relationships explained using both Postgres tables and Django models in each example.
 
-- Each example has an example company or customer need that is then solved using a relationship. 
-- The aim is to make it easier to understand when and how to use model relationships and when to use on delete cascade or on delete set null.
+The examples also aim to explain when to use on delete cascade or on delete set null.
 
-- All of the examples show you how a Django model would be setup with table equivalents using PostgreSQL.
+The examples try to clarify what is happening in Postgres tables under the hood, when Django models are created with simple clear example scenarios.
 
-## The examples focus on helping users understand these concepts clearly:
+EXAMPLE
+- Each example
+How is this relationship created in Postgres tables?
+How is this relationship created with Django models?
+What happens if a referencing object or row is deleted?
 
-1. When to use a one to one relationship.
-2. When to use a one to many relationship.
-3. When a many to many relationship could be used.
-4. How to setup the above relationships as PostgreSQL tables and Django models.
-5. What the difference is between 'ON DELETE CASCADE' and ON DELETE SET NULL and when you might use each.
+1. OneToOne relationship with ON DELETE CASCADE.
+- An example of a user and user profile as used in many applications.
 
-6. The examples also look at various Django model fields and attributes such as blank, null, unique, cascade and set null.
-7. Other Postgres concepts such as truncating a table and transactions using ROLLBACK are discussed.
-8. Basic queries are shown in how to access the other side of the model in Django.
+2. OneToOne relationship with ON DELETE SET NULL
+- An example of a customer and a unique special offer code.
+
+3. OneToMany relationship with ON DELETE CASCADE
+
+4. OneToMany relationship with ON DELETE SET NULL
+- An example of a property and agent relationship for a property rental company.
+
+5. Many To Many relationship example.
+- An example for a university with teachers teaching multiple subjects.
+
