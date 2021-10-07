@@ -102,14 +102,12 @@ FROM profile;
 ```
 
 ### Delete the data and restart the increment counter
-- If you want to add more site_users and profiles to test the tables, the increment counter on site_user will continue with an id of '2'.
-- If you want to reset the PRIMARY KEY increment counter back to 1 (and delete all data in the site_user table) you can use TRUNCATE TABLE...CASCADE
+- Now our tables are empty anyway, if you want to restart the auto increment id counter back to 1 you can... (TRUNCATE deletes all table data and resets the primary key counter)
 
 ```
 TRUNCATE TABLE site_user
 RESTART IDENTITY
 CASCADE;
-
 ```
 
 ### Drop a table referenced by another table
