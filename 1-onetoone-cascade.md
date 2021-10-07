@@ -40,6 +40,7 @@ CREATE TABLE profile(
 );
 ```
 
+### Add data
 Let's add some data
 
 ```
@@ -59,7 +60,9 @@ VALUES
 (1, 'Hi my name is Bob.');
 ```
 
+### Test the Unique Constraint
 Let's test the unique constraint by trying to create another profile for user of id '1'
+- We can see that an error is returned because only ONE profile is allowed for each user.
 
 ```
 INSERT INTO profile(
@@ -73,6 +76,7 @@ ERROR:  duplicate key value violates unique constraint "profile_pkey"
 DETAIL:  Key (site_user_id)=(1) already exists.
 ```
 
+### Test Delete a Site User
 Let's see what happens to the profile table if we delete a user...
 
 ```
@@ -83,31 +87,35 @@ WHERE username = 'bobwatkins';
 Because we have ON DELETE CASCADE set to the site_user_id in the profile table, when a user is deleted, the profile is also deleted.
 
 ```
-SELECT * FROM site_user;
+SELECT username, email, password 
+FROM site_user;
 
  id | username | email | password 
 ----+----------+-------+----------
 (0 rows)
 
 
-SELECT * FROM profile;
+SELECT site_user_id, description 
+FROM profile;
 
  site_user_id | description 
 --------------+-------------
 (0 rows)
 ```
 
-If you want to delete all of the data to add different user and profile examples but also want to reset the PRIMARY KEY increment counter back to 1 you can use TRUNCATE TABLE...
+### Delete the data and restart the increment counter
+- If you want to add more site_users and profiles to test the tables, the increment counter on site_user will continue with an id of '2'.
+- If you want to reset the PRIMARY KEY increment counter back to 1 (and delete all data in the site_user table) you can use TRUNCATE TABLE...CASCADE
 
 ```
 TRUNCATE TABLE site_user
 RESTART IDENTITY
 CASCADE;
 
-TRUNCATE TABLE profile;
 ```
 
-Also, to show you how the foreign key relationship affects tables, if you try and drop the parent table 'site_user' you would have the error shown below because the table is referenced by the 'profile' table.
+### Drop a table referenced by another table
+- If you try and drop the parent table 'site_user' you would have the error shown below...
 
 ```
 DROP site_user;
@@ -117,29 +125,32 @@ DETAIL:  constraint profile_site_user_id_fkey on table profile depends on table 
 HINT:  Use DROP ... CASCADE to drop the dependent objects too.
 ```
 
-Here, we can see when we use DROP... CASCADE, the table deletion cascades down and deletes all tables that reference it.
+Here, we can see when we use DROP... CASCADE, the reference is removed from the profile table... (but we still have to DROP the profile table)
 
 ```
 DROP TABLE site_user
 CASCADE;
 
 NOTICE:  drop cascades to constraint profile_site_user_id_fkey on table profile
-DROP TABLE
+
+--- Describe the setup of profile - the Foreign Key has been removed...
+\d profile
+
+Table "public.profile"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ site_user_id | integer |           | not null | 
+ description  | text    |           | not null | 
+Indexes:
+    "profile_pkey" PRIMARY KEY, btree (site_user_id)
+
+DROP profile;
+
 ```
 
-## DJANGO - How it works in Django
+### DJANGO - How it works in Django
 
-NOTE: In this example, instead of 'site_user' (only used as an example to avoid the postgres 'user' keyword) we use the built in django user model.
-
-NOTE: 'settings.AUTH_USER_MODEL' refers to the built in Django 'user' model.
-
-NOTE:  Using 'models.OneToOneField' effectively does the same as above - adding a foreign key that is set to unique. This means there can be only 1 user associated with the profile and vice versa.
-
-NOTE:  The 'on_delete=models.CASCADE' part means that the same things will happen as above.  If the user is deleted, the profile is irrelevant and will be deleted too!
-
-NOTE: Django will automatically create the SERIAL (AUTO INCREMENTED) PRIMARY KEY integer for your model.
-
-- Here is how you would represent the 'profile' table with a Django model...
+- Compare the Django model below with the Postgres table for profile above.
 
 ```
 class Profile(models.Model):
@@ -154,6 +165,35 @@ class Profile(models.Model):
         blank=False
     )
 ```
+
+- The site_user_id is set as a FOREIGN KEY referencing or linking to the id column of the site_user table.
+- The site_user_id is also set as UNIQUE which means only one id from the site_user table can be linked to a profile.
+- The FOREIGN KEY of site_user_id in the profile table is also set to ON DELETE CASCADE. 
+- ON DELETE CASCADE means that when the 'parent' row (site_user) is deleted, then this profile row will also be deleted.
+
+
+
+
+
+
+
+
+
+
+
+NOTE: In this example, instead of 'site_user' (only used as an example to avoid the postgres 'user' keyword) we use the built in django user model.
+
+NOTE: 'settings.AUTH_USER_MODEL' refers to the built in Django 'user' model.
+
+NOTE:  Using 'models.OneToOneField' effectively does the same as above - adding a foreign key that is set to unique. This means there can be only 1 user associated with the profile and vice versa.
+
+NOTE:  The 'on_delete=models.CASCADE' part means that the same things will happen as above.  If the user is deleted, the profile is irrelevant and will be deleted too!
+
+NOTE: Django will automatically create the SERIAL (AUTO INCREMENTED) PRIMARY KEY integer for your model.
+
+- Here is how you would represent the 'profile' table with a Django model...
+
+
 
 ### Accessing Django objects
 
