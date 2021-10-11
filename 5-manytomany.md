@@ -47,7 +47,9 @@ CREATE TABLE teacher_subject(
 
 ```
 \d teacher_subject
+```
 
+```
  Table "public.teacher_subject"
    Column   |  Type   | Collation | Nullable | Default 
 ------------+---------+-----------+----------+---------
@@ -97,7 +99,9 @@ INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id
 INNER JOIN subject ON subject.id = teacher_subject.subject_id
 WHERE subject.name = 'Python'
 ORDER BY subject.name;
+```
 
+```
    teacher    | subject 
 --------------+---------
  Jane Smith   | Python
@@ -115,7 +119,9 @@ INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id
 INNER JOIN subject ON subject.id = teacher_subject.subject_id
 WHERE teacher.name = 'Jane Smith'
 ORDER BY subject.name;
+```
 
+```
   subject   
 ------------
  Javascript
@@ -140,7 +146,9 @@ WHERE name = 'Python'
 ERROR:  update or delete on table "subject" violates foreign key constraint "subject_id_fk" on table "teacher_subject"
 DETAIL:  Key (id)=(2) is still referenced from table "teacher_subject".
 relationships=# 
+```
 
+```
 --- Enter ROLLBACK to end the transaction
 ROLLBACK;
 ```
@@ -171,23 +179,40 @@ ADD CONSTRAINT subject_id_fk
     FOREIGN KEY(subject_id)
     REFERENCES subject(id)
     ON DELETE CASCADE;
+```
 
+```
 --- check table
 \d teacher_subject
+```
 
----Commit changes if no problems, or rollback (undo)
-COMMIT; / ROLLBACK;
+```
+COMMIT; --- Or you can use ROLLBACK to undo the changes;
 ```
 
 - Now we can delete 'Python' and see the effect the deletion had on our teacher_student table...
 
 ```
+BEGIN;
+
 DELETE FROM subject
 WHERE name = 'Python';
+```
 
+--- Commit the changes if you are sure, or undo changes
+
+```
+COMMIT; --- Or ROLLBACK if the change has been 
+```
+
+-- Let's see if Python is still in the bridge table...
+
+```
 SELECT teacher_id, subject_id 
 FROM teacher_subject;
+```
 
+```
  teacher_id | subject_id 
 ------------+------------
           1 |          1
@@ -203,7 +228,9 @@ FROM teacher_subject
 INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id
 INNER JOIN subject ON subject.id = teacher_subject.subject_id
 ORDER BY subject.name;
+```
 
+```
  teacher   |  subject   
 ------------+------------
  Jane Smith | Javascript
@@ -238,12 +265,15 @@ class Teacher(models.Model):
 ```
 --- Get a teachers subjects
 subject = teacher.subjects.all()
+```
 
+```
 --- Get a subjects teachers (different query as we used ManyToMany field on the 'Subject' model)
 teachers = subject.teacher_set.all()
 ```
 
 - More specific search examples
+
 ```
 Teacher.objects.filter(subjects__name="Python")
 Teacher.objects.filter(subject__name="Javascript")
@@ -255,6 +285,6 @@ Subject.objects.filter(teacher__id=2)
 ### SUMMARY:  
 In this scenario, teachers can teach many different subjects.  Subjects can be taught by many different teachers.
 
-- A many to many relationship is usually defined by a bridge table.
-- You still need to specify Foreign Keys and decide to add ON DELETE CASCADE or ON DELETE SET NULL to your bridge table constraints.
+- A MANY to MANY relationship is usually defined by a bridge table.
+- You still need to specify Foreign Keys and decide to add ON DELETE CASCADE or ON DELETE SET NULL to your bridge table constraints depending on the use case.
 - Django takes care of database creation when we use a 'ManyToMany' field.
