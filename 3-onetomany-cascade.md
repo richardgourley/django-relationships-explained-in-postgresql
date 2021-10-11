@@ -64,6 +64,7 @@ VALUES
 ```
 
 --- Let's find trainers who have a course with the word 'Java' in the title, with an INNER JOIN query to get trainer and course names.
+
 --- Note the LIKE clause is used to find courses where 'Java' is the final word and also 'Java ' is followed by a space to ensure 'Javascript' courses are not returned.
 
 ```
@@ -96,7 +97,7 @@ AND last_name = 'Gibson';
 COMMIT;  --- Or ROLLBACK to undo this action.
 ```
 
-- Let's perform another query to see if 'Stacy Jackon' has been deleted from the trainer table and to see if all of her courses have been deleted from the course table...
+- Let's perform another query to see if 'Tracy Gibson' has been deleted from the trainer table and to see if all of her courses have been deleted from the course table...
 
 ```
 SELECT 
@@ -145,11 +146,11 @@ class Course(models.Model):
 
 ```
 
-- A one to many relationship is created with a 'ForeignKey' field passing in the related object.
-- The 'Trainer' class object is passed in to the Foreign Key for One To Many relationships
+- A one to many relationship is created with an object being passed to the 'ForeignKey' field of the related object.
+- The 'Trainer' class object is passed in to the Foreign Key for One To Many relationships with the 'Course' class.
 - The 'Trainer' object is not Unique (unlike OneToOne relationship)
 - The 'EmailField' will be validated in django-admin by Django
-- As 'on_delete=models.CASCADE' is set on the 'ForeignKey' field of the 'Course' class, it means that when the instance of 'Teacher' related to this course is deleted, THIS course instance will also be deleted.
+- As 'on_delete=models.CASCADE' is set on the 'ForeignKey' field of the 'Course' class, it means that when the the trainer who owns this course is deleted, the course will be deleted too.
 
 ### Accessing Django objects
 
@@ -162,7 +163,6 @@ courses = trainer.course_set.all()
 
 count = trainer.course_set.count()
 
-trainer = course.trainer
 ```
 
 ```
@@ -173,14 +173,16 @@ trainer = course.trainer
 
 --- Query courses with 'Python' in the course name and then loopover the courses and print out the name of the course trainer...
 
+```
 python_courses = Course.objects.filter(course_name__contains="Python")
 
 for course in python_courses:
     print(course.trainer.first_name, course.trainer.last_name, course.trainer.email, course.course_name, course.duration_in_hours)
+```
 
 ### SUMMARY:
 - MANY courses can belong to ONE trainer, hence the ONE to MANY relationship.
-- ONE to MANY are setup using the 'ForeignKey' field in Django.
-- In another scenario, it could be that the course could be assigned to a different trainer, if a trainer retires.  However, in this specific user case, ON DELETE CASCADE works because the trainer takes their courses with them when they are deleted from the database.
+- ONE to MANY relationships are setup using the 'ForeignKey' field in Django.
+- In another scenario, it could be that the course could be assigned to a different trainer, if a trainer retires.  However, in this specific use case, ON DELETE CASCADE works because the trainer takes their courses with them when they are deleted from the database.
 
 - One other thing, you can also use the RESTRICT option instead of ON DELETE CASCADE, or SET NULL.  That will RESTRICT any deletions of a 'parent' table happening at all. It depends on the use case in each situation.
