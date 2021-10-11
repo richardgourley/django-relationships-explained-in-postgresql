@@ -4,14 +4,14 @@
 ### Situation
 - In this example, a company has customers.  The customers are assigned a special offer code that is used by other tables and parts of the business.
 - In this case, the company wants the special offer code to be completely unique.  They also want only one special offer code per customer.
-- Also, when a user is deleted, they don't want to delete the special offer code from the database because they don't want to issue an already used special offer code to a new customer. 
+- Also, when a customer is deleted, they don't want to delete the special offer code from the database.  They want to keep all previously used unique special offer codes in the database because they never want to re-issue a special offer code to any new customers.
 
 ### POSTGRES - How would it work in Postgres
 - The customer table is the 'parent' table.
 - The special_offer_code table is the 'child' table - 'owned' by a customer.
 - In the 'special_offer_code' table, the customer_id field is set to UNIQUE to ensure a ONE to ONE relationship.
 - The code field in the 'special_offer_code' table is also set to UNIQUE to ensure it is never repeated.
-- The customer_id field is also nullable, and the foreign key is set to ON DELETE SET NULL, so if a customer is deleted, the row remains in the special_offer_code table with the customer_id set to NULL.
+- The customer_id field is also nullable, and the foreign key is set to ON DELETE SET NULL - so if a customer is deleted, the row remains in the special_offer_code table with the customer_id set to NULL.
 
 ### The Tables
 
@@ -38,7 +38,9 @@ Let's look at the special_offer_code table...
 
 ```
 \d special_offer_code;
+```
 
+```
 Table "public.special_offer_code"
    Column    |     Type      | Collation | Nullable | Default 
 -------------+---------------+-----------+----------+---------
@@ -86,11 +88,15 @@ INSERT INTO customer(customer_name, customer_address)
 VALUES 
 ('Corby Spanish Classes', '15 Corby Road')
 RETURNING id;
+```
 
+```
 id 
 ----
   3
+```
 
+```
 INSERT INTO special_offer_code(customer_id, code)
 VALUES
 (3, 'CORBSP5769');
@@ -98,6 +104,7 @@ VALUES
 ERROR:  duplicate key value violates unique constraint "special_offer_code_code_key"
 DETAIL:  Key (code)=(CORBSP5769) already exists.
 ```
+
 ### Test Delete a Site User
 
 - Let's see what happens in the special_offer_code table if we delete a user...
@@ -108,8 +115,10 @@ BEGIN;
 
 DELETE FROM customer
 WHERE id = 1;
+```
 
-COMMIT; (Here you can enter ROLLBACK instead if you make an error and need to undo changes!)
+```
+COMMIT; ---Here you can enter ROLLBACK instead if you make an error and need to undo changes!
 ```
 
 - Check the changes...
@@ -117,16 +126,21 @@ COMMIT; (Here you can enter ROLLBACK instead if you make an error and need to un
 ```
 SELECT id, customer_name, customer_address
 FROM customer;
+```
 
+```
  id |     customer_name     | customer_address 
 ----+-----------------------+------------------
   2 | Jones Butchers        | 26 Corby Road
   3 | Corby Spanish Classes | 15 Corby Road
+```
 
-
+```
 SELECT customer_id, code 
 FROM special_offer_code;
+```
 
+```
  customer_id |    code    
 -------------+------------
            2 | JONEBU7856
@@ -185,7 +199,7 @@ customer = code.customer
 code = customer.code # may raise Code.DoesNotExist error
 ```
 
-- Exception handling of ObjectDoesNotExist
+- Exception handling using the ObjectDoesNotExist exception...
 
 ```
 try:
@@ -202,5 +216,6 @@ hasattr(customer, 'code')
 
 ### SUMMARY:  
 
-In this example of a ONE to ONE relationship with ON DELETE SET NULL, the customer can have only ONE special offer code but when the customer is deleted, the unique special offer code remains in the database.
-In situations where a 'parent' table row is deleted but you want to keep the associated row from the child table in the database, use ON DELETE SET NULL.
+- In this example of a ONE to ONE relationship with ON DELETE SET NULL, the customer can have only ONE special offer code but when the customer is deleted, the unique special offer code remains in the database.
+
+- In situations where a 'parent' table row is deleted but you want to keep the associated row from the child table in the database, use ON DELETE SET NULL.
