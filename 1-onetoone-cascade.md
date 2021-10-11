@@ -75,11 +75,17 @@ DETAIL:  Key (site_user_id)=(1) already exists.
 ```
 
 ### Test Delete a Site User
-Let's see what happens to the profile table if we delete a user...
+Let's see what happens to the profile table if we delete a user (using a transaction with BEGIN and COMMIT or ROLLBACK to undo changes)...
 
 ```
+BEGIN;
+
 DELETE FROM site_user 
 WHERE username = 'bobwatkins';
+```
+
+```
+COMMIT;  ---- Or use ROLLBACK here to undo changes above.
 ```
 
 Because we have ON DELETE CASCADE set to the site_user_id in the profile table, when a user is deleted, the profile is also deleted.
@@ -87,7 +93,11 @@ Because we have ON DELETE CASCADE set to the site_user_id in the profile table, 
 ```
 SELECT username, email, password 
 FROM site_user;
+```
 
+- You should see both tables are empty...
+
+```
  id | username | email | password 
 ----+----------+-------+----------
 (0 rows)
@@ -102,12 +112,18 @@ FROM profile;
 ```
 
 ### Delete the data and restart the increment counter
-- Now our tables are empty anyway, if you want to restart the auto increment id counter back to 1 you can... (TRUNCATE deletes all table data and resets the primary key counter)
+- Now that our tables are empty anyway, if you want to restart the auto increment id counter back to 1 you can... (TRUNCATE deletes all table data and resets the primary key counter)
 
 ```
+BEGIN;
+
 TRUNCATE TABLE site_user
 RESTART IDENTITY
 CASCADE;
+```
+
+```
+COMMIT; --- Or enter ROLLBACK here instead to undo the changes above.
 ```
 
 ### Drop a table referenced by another table
@@ -129,9 +145,15 @@ CASCADE;
 
 NOTICE:  drop cascades to constraint profile_site_user_id_fkey on table profile
 
---- Describe the setup of profile - the Foreign Key has been removed...
-\d profile
+```
 
+--- Describe the setup of profile - the Foreign Key has been removed...
+
+```
+\d profile
+```
+
+```
 Table "public.profile"
     Column    |  Type   | Collation | Nullable | Default 
 --------------+---------+-----------+----------+---------
@@ -139,10 +161,12 @@ Table "public.profile"
  description  | text    |           | not null | 
 Indexes:
     "profile_pkey" PRIMARY KEY, btree (site_user_id)
+```
 
-----
+- Now you can drop the profile table after 'DROP TABLE site_user' CASCADE has been commited.
+
+```
 DROP profile;
-
 ```
 
 ### DJANGO - How it works in Django
@@ -166,10 +190,10 @@ class Profile(models.Model):
     )
 ```
 
+- Django already has a built in user model with username, email, is_staff and other fields, so we can import the 'User' class model and pass it to the 'OneToOneField' 
 - With the 'OneToOneField', Django takes care of adding unique=True.
 - Django will create a table in the database to contain objects of the 'Profile' model.
 - In Django, we pass in models for relationships instead of 'ids' from other tables.
-- Django already has a built in user model with username, email etc. so we pass in 'User' to the 'OneToOneField' 
 
 - The same as with the Postgres tables above, if the user is deleted, the profile for that user is also deleted because we have set: 'on_delete=models.CASCADE'
 
@@ -215,5 +239,6 @@ Profile.objects.get(user__username__contains="Bob")
 ```
 
 ### SUMMARY:  
-- The Django 'OneToOneField' effectively means this model belongs to the parent model and only ONE of this model can belong to the parent.
+- The Django 'OneToOneField' effectively means this model belongs to the parent model and only ONE of this model can belong to the parent  model.
+- The parent model can also only own ONE of the child model.
 - 'on_delete=models.CASCADE' means that IF the parent model ('user') is deleted, the 'profile' object will also be deleted.
