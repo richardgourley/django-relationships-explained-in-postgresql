@@ -9,7 +9,7 @@
 
 - Hopefully they will help developers understand how to **confidently** setup objects with different types of relations, and be able to query and the objects on the other side of the relationship.
 
-(Apart from a few Postgres specific commands, these example tables will work fine with MySQL InnoDB tables.)
+(Apart from a few Postgres specific commands such as /dt or /d table, these example tables will work fine with MySQL InnoDB tables.)
 
 ## EXAMPLE SCENARIOS
 
