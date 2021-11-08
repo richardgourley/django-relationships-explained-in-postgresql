@@ -5,7 +5,7 @@
 2. Query the other side of model relationships - do you use 'a.object', 'a.object_set.all()' or 'a.object.all()'?
 3. Use 'on_delete=models.SET_NULL' or 'on_delete=models.CASCADE'
 
-- These examples try to demonstrate the equivalent of what is happening behind the scenes in Postgres database tables when you create Django models. 
+- These examples try to demonstrate the equivalent of what is happening behind the scenes in Postgresql database tables when you create Django models. 
 
 - Hopefully the examples will help new developers understand how to **confidently** setup objects with different types of relations, without guessing or needing to completely change a model later on. The examples also give examples of querying objects on the **"other side"** of the relationship.
 
