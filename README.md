@@ -7,9 +7,11 @@
 
 - These examples try to demonstrate the equivalent of what is happening behind the scenes in Postgresql database tables when you create Django models. 
 
-- Hopefully the examples will help new developers understand how to **confidently** setup objects with different types of relations, without guessing or needing to completely change a model later on. The examples also give examples of querying objects on the **"other side"** of the relationship.
+- The aim is to help developers understand how to **confidently** setup objects with different types of relations, without having to completely change a model later on. 
 
-(Apart from a few Postgres specific commands such as /dt or /d table, these examples are relevant to MySQL InnoDB tables.)
+- Examples of querying objects on the **"other side"** of the relationship are included.
+
+(Apart from a few Postgres specific commands such as /dt or /d table, these examples are relevant to MySQL InnoDB tables, or any other relational databases utilizing foreign key constraints.)
 
 ## EXAMPLE SCENARIOS
 
