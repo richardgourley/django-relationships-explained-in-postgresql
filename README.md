@@ -49,6 +49,7 @@ https://www.postgresqltutorial.com/
 ## SKILLS COVERED
 
 DJANGO
+
 - Django models.Model class
 - Django User model
 
@@ -74,6 +75,7 @@ DJANGO
 - hasattr()
 
 POSTGRES
+
 **Constraints**
 - PRIMARY KEY
 - SERIAL
