@@ -31,6 +31,18 @@
 5. **Many To Many relationship example.**
 - An example of a university with multiple subjects taught by multiple teachers.
 
-## FEATURED EXAMPLES
+## TOOLS
 
+- Python Django
+- PostgreSQL database
+
+## GETTING STARTED
+
+New to Django?
+- Get started with Django...
+https://docs.djangoproject.com
+
+New to PostgreSQL?
+- Get started with installing PostgreSQL on Linux, Windows or Mac
+https://www.postgresqltutorial.com/
 
