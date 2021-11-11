@@ -1,11 +1,12 @@
 # Django Relationships Explained in PostgreSQL
 
-**Here are some examples for anyone who isn't 100% sure how or when to:**
+## INTRO
+**Examples to help developers understand how to:**
 1. Use the 'ForeignKey', 'OneToOne' or the 'ManyToMany' fields in their Django models
 2. Query the other side of model relationships - do you use 'a.object', 'a.object_set.all()' or 'a.object.all()'?
 3. Use 'on_delete=models.SET_NULL' or 'on_delete=models.CASCADE'
 
-- These examples try to demonstrate the equivalent of what is happening behind the scenes in Postgresql database tables when you create Django models. 
+- These examples demonstrate the equivalent of what is happening behind the scenes in Postgresql database tables when you create Django models. 
 
 - The aim is to help developers understand how to **confidently** setup objects with different types of relations, without having to completely change a model later on. 
 
