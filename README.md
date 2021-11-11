@@ -48,7 +48,7 @@ https://www.postgresqltutorial.com/
 
 ## SKILLS COVERED
 
-DJANGO
+**DJANGO**
 
 - Django models.Model class
 - Django User model
@@ -74,9 +74,9 @@ DJANGO
 - object.relatedobject_set.count()
 - hasattr()
 
-POSTGRES
+**POSTGRES**
 
-**Constraints**
+***Constraints***
 - PRIMARY KEY
 - SERIAL
 - FOREIGN KEY.. REFERENCES
@@ -85,7 +85,7 @@ POSTGRES
 - NULL, NOT NULL
 - UNIQUE
 
-**Table creation and fields**
+***Table creation and fields***
 - CREATE TABLE
 - VARCHAR
 - TEXT
@@ -93,7 +93,7 @@ POSTGRES
 - SMALLINT
 - DECIMAL
 
-**Commands**
+***Commands***
 - SELECT
 - COLUMN ALIAS
 - TABLE ALIAS
