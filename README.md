@@ -14,9 +14,7 @@
 
 (Apart from a few Postgres specific commands such as /dt or /d table, these examples are relevant to MySQL InnoDB tables, or any other relational databases utilizing foreign key constraints.)
 
-## EXAMPLE SCENARIOS
-
-## List of Examples
+## FEATURED EXAMPLES
 
 1. **OneToOne relationship with ON DELETE CASCADE.**
 - An example of a user and user profile as used in many applications.
@@ -32,5 +30,7 @@
 
 5. **Many To Many relationship example.**
 - An example of a university with multiple subjects taught by multiple teachers.
+
+## FEATURED EXAMPLES
 
 
