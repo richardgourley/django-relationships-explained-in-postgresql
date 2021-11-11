@@ -73,6 +73,16 @@ DJANGO
 - object.relatedobject_set.count()
 - hasattr()
 
+POSTGRES
+**Constraints**
+- PRIMARY KEY
+- SERIAL
+- FOREIGN KEY.. REFERENCES
+- ON DELETE CASCADE
+- ON DELETE SET NULL
+- NULL, NOT NULL
+- UNIQUE
+
 
 
 
