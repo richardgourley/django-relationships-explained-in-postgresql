@@ -46,3 +46,34 @@ New to PostgreSQL?
 - Get started with installing PostgreSQL on Linux, Windows or Mac
 https://www.postgresqltutorial.com/
 
+## SKILLS COVERED
+
+DJANGO
+- Django models.Model class
+- Django User model
+
+- models.OneToOneField
+- models.ForeignKey
+- models.CharField
+- models.TextField
+- models.EmailField
+- models.SmallIntegerField
+- models.DecimalField
+- models.ManyToManyField
+- max_length
+- on_delete=models.CASCADE
+- null=False, blank=False
+
+- Exception Handling - ObjectDoesNotExist
+
+- Obj.objects.get()
+- Obj.object.filter()
+- object.relatedobjects.all()
+- object.relatedobject_set.all()
+- object.relatedobject_set.count()
+- hasattr()
+
+
+
+
+
