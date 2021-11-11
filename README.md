@@ -83,7 +83,29 @@ POSTGRES
 - NULL, NOT NULL
 - UNIQUE
 
+**Table creation and fields**
+- CREATE TABLE
+- VARCHAR
+- TEXT
+- CHAR
+- SMALLINT
+- DECIMAL
 
+**Commands**
+- SELECT
+- COLUMN ALIAS
+- TABLE ALIAS
+- INSERT INTO
+- TRUNCATE TABLE
+- RESTART IDENTITY
+- DROP TABLE IF EXISTS
+- BEGIN, COMMIT, ROLLBACK
+
+- INNER JOIN
+- ORDER BY
+
+** Inspect table **
+- \d (describe table in Postgresql) - DESC TABLE in MYSQL
 
 
 
