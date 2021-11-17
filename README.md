@@ -106,8 +106,9 @@ https://www.postgresqltutorial.com/
 - INNER JOIN
 - ORDER BY
 
-** Inspect table **
-- \d (describe table in Postgresql) - DESC TABLE in MYSQL
+**Table Inspection**
+- \d (describe table in Postgresql) 
+- \dt (show tables in Postgresql)
 
 
 
